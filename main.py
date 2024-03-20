@@ -1,47 +1,45 @@
-
 import streamlit as st
 import pandas as pd
 
 # Setting the page config to include favicon and title
 st.set_page_config(
     page_title="ID Verification System",
-    page_icon=r"PuebloBavaroLogo.png",  # Adjust the path as needed
+    page_icon="PuebloBavaroLogo_Square.png",  # Adjust the path as needed
     layout="centered"
 )
 
 # Load data from the Excel file
-file_path = r'DBColegio.xlsx'  # Adjust the path as needed
+file_path = 'DBColegio.xlsx'  # Adjust the path as needed
 data = pd.read_excel(file_path)
 
 # Display the logo
-st.image(r"PuebloBavaroLogo.png", width=400)  # Adjust the path as needed
+st.image("PuebloBavaroLogo_Square.png", width=100)  # Adjust the path as needed
 
 # Setting up the Streamlit interface
 st.title('ID Verification System')
 
-# Input for the ID
-user_id = st.text_input('Ingresa el código:', '')
+# Input for the ID or Cedula
+user_input = st.text_input('Ingresar código o cédula:', '')
 
-# Function to check the ID and return name if found
-def check_id_and_get_name(user_id):
-    if user_id.isdigit():  # Ensure the input is a digit to prevent errors
-        user_id = int(user_id)
-        if user_id in data['id'].values:
-            # Get the name of the person with the given ID
-            name = data.loc[data['id'] == user_id, 'nombre'].values[0]
-            return True, name  # Return both the check result and the name
-        else:
-            return False, None
-    else:
-        return None, None  # Return None if the input is not a digit
+# Function to check the ID/Cedula and return name if found
+def check_input_and_get_name(user_input):
+    # Try matching by ID if the input is a digit
+    if user_input.isdigit():
+        user_input = int(user_input)
+        if user_input in data['id'].values:
+            name = data.loc[data['id'] == user_input, 'nombre'].values[0]
+            return True, name
+    # Try matching by Cedula in case ID match fails or input isn't a digit
+    if user_input in data['cedula'].values:
+        name = data.loc[data['cedula'] == user_input, 'nombre'].values[0]
+        return True, name
+    return False, None
 
 # Display result
-if user_id:  # Only proceed if user_id is not an empty string
-    result, name = check_id_and_get_name(user_id)
+if user_input:  # Only proceed if user_input is not an empty string
+    result, name = check_input_and_get_name(user_input)
     if result is True:
-        st.success(f'Access Concedido a {name}')
+        st.success(f'Acceso concedido a {name}')
         st.balloons()  # Adds celebration balloons for positive result
-    elif result is False:
+    else:
         st.error('Acceso Denegado')
-    elif result is None:
-        st.warning('Please enter a valid numerical ID')
