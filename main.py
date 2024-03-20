@@ -4,7 +4,7 @@ import pandas as pd
 # Setting the page config to include favicon and title
 st.set_page_config(
     page_title="ID Verification System",
-    page_icon="PuebloBavaroLogo_Square.png",  # Adjust the path as needed
+    page_icon="PuebloBavaroLogo.png",  # Adjust the path as needed
     layout="centered"
 )
 
@@ -13,7 +13,7 @@ file_path = 'DBColegio.xlsx'  # Adjust the path as needed
 data = pd.read_excel(file_path)
 
 # Display the logo
-st.image("PuebloBavaroLogo_Square.png", width=100)  # Adjust the path as needed
+st.image("PuebloBavaroLogo.png", width=100)  # Adjust the path as needed
 
 # Setting up the Streamlit interface
 st.title('ID Verification System')
