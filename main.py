@@ -12,8 +12,6 @@ st.set_page_config(
 file_path = 'DBColegio.xlsx'  # Adjust the path as needed
 data = pd.read_excel(file_path)
 
-# Display the logo
-st.image("PuebloBavaroLogo.png", width=100)  # Adjust the path as needed
 
 # Setting up the Streamlit interface
 st.title('ID Verification System')
